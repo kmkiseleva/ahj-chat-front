@@ -1,0 +1,118 @@
+body {
+  background-image: url('../img/chat-back.jpg');
+  background-repeat: no-repeat;
+}
+
+#main {
+  position: relative;
+}
+
+.chat__title {
+  width: 200px;
+  text-align: center;
+  margin: 10px auto;
+}
+
+.chat__container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  border: 1px solid black;
+  display: flex;
+}
+
+.chat__userlist {
+  width: 20%;
+  height: 500px;
+  border: 1px solid black;
+  margin: 10px;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.chat__user {
+  width: 80%;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 10px;
+  font-size: 24px;
+  text-align: center;
+  padding: 5px;
+}
+
+.you {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+}
+
+.message {
+  border: 1px solid black;
+  width: 200px;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px;
+  margin: 10px;
+}
+
+.yourself {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.message__header {
+  font-size: 12px;
+  text-align: right;
+  color: grey;
+}
+
+.message__text {
+  font-size: 24px;
+}
+
+.chat__area {
+  width: 80%;
+  margin: 10px;
+  border: 1px solid black;
+  position: relative;
+}
+
+.form__group {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.form__input {
+  width: 300px;
+  height: 25px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.modal__form {
+  width: 400px;
+  height: 120px;
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  margin: 0 auto;
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+}
+
+.modal__input {
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
+}
