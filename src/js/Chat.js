@@ -1,4 +1,5 @@
 import ChatAPI from './api/ChatAPI';
+import eventBus from './EventBus';
 
 export default class Chat {
   constructor(container) {
@@ -9,6 +10,7 @@ export default class Chat {
 
   init() {
     this.registerEvents();
+    this.subscribeOnEvents();
   }
 
   registerEvents() {
@@ -17,6 +19,10 @@ export default class Chat {
         this.sendMessage();
       }
     });
+  }
+
+  subscribeOnEvents() {
+    eventBus.subscribe('connect-chat', this.onEnterChat, this);
   }
 
   get modalForm() {
@@ -60,9 +66,9 @@ export default class Chat {
   }
 
   sendMessage() {
-    const { value } = this.inputElement;
+    const { value } = this.modalInput;
     this.websocket.send(JSON.stringify({ type: 'send', message: value, user: this.user }));
-    this.inputElement.value = '';
+    this.modalInput.value = '';
   }
 
   renderMessage(event) {
@@ -73,9 +79,9 @@ export default class Chat {
         console.log(user);
       });
     }
-    // const sourceDate = new Date();
-    // const date = `${sourceDate
-    //   .toLocaleTimeString()
-    //   .slice(0, 5)} ${sourceDate.toLocaleDateString()}`;
+    const sourceDate = new Date();
+    const date = `${sourceDate
+      .toLocaleTimeString()
+      .slice(0, 5)} ${sourceDate.toLocaleDateString()}`;
   }
 }
