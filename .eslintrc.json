@@ -19,6 +19,7 @@
       "WithStatement"
     ],
     "no-unused-expressions": ["error", { "allowTernary": true }],
-    "no-alert": "off"
+    "no-alert": "off",
+    "no-console": "off"
   }
 }

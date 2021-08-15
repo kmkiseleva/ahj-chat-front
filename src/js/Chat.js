@@ -61,7 +61,7 @@ export default class Chat {
         )
       );
     } else {
-      console.log('Already Ex');
+      // console.log('Already Ex');
     }
   }
 
@@ -79,9 +79,5 @@ export default class Chat {
         console.log(user);
       });
     }
-    const sourceDate = new Date();
-    const date = `${sourceDate
-      .toLocaleTimeString()
-      .slice(0, 5)} ${sourceDate.toLocaleDateString()}`;
   }
 }
