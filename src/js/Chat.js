@@ -1,5 +1,4 @@
 import ChatAPI from './api/ChatAPI';
-import eventBus from './EventBus';
 
 export default class Chat {
   constructor(container) {
@@ -10,19 +9,23 @@ export default class Chat {
 
   init() {
     this.registerEvents();
-    this.subscribeOnEvents();
   }
 
   registerEvents() {
     this.modalInput.addEventListener('keydown', (e) => {
+      if (e.keyCode === 13) {
+        this.onEnterChat(this.modalInput.value);
+      }
+    });
+    this.inputElement.addEventListener('keydown', (e) => {
       if (e.keyCode === 13) {
         this.sendMessage();
       }
     });
   }
 
-  subscribeOnEvents() {
-    eventBus.subscribe('connect-chat', this.onEnterChat, this);
+  get userListContainer() {
+    return this.container.querySelector('.chat__userlist');
   }
 
   get modalForm() {
@@ -30,15 +33,15 @@ export default class Chat {
   }
 
   get modalInput() {
-    return document.querySelector('.modal__input');
-  }
-
-  get userListContainer() {
-    return this.container.querySelector('.chat__userlist');
+    return document.querySelector('.modal__form .form__input');
   }
 
   get inputElement() {
-    return this.container.querySelector('.form__input');
+    return document.querySelector('.form__input');
+  }
+
+  get connectButton() {
+    return this.container.querySelector('.chat__start');
   }
 
   get messageContainer() {
@@ -50,7 +53,7 @@ export default class Chat {
     if (response.status === 'ok') {
       this.modalForm.classList.add('hidden');
       this.user = response.user;
-      this.websocket = new WebSocket('wss://ahj-chat-back.herokuapp.com/wss');
+      this.websocket = new WebSocket('ws://ahj-chat-back.herokuapp.com/chat');
       this.websocket.addEventListener('message', (event) => this.renderMessage(event));
       window.addEventListener('beforeunload', () =>
         this.websocket.send(
@@ -61,14 +64,14 @@ export default class Chat {
         )
       );
     } else {
-      // console.log('Already Ex');
+      console.log('Already Ex');
     }
   }
 
   sendMessage() {
-    const { value } = this.modalInput;
+    const { value } = this.inputElement;
     this.websocket.send(JSON.stringify({ type: 'send', message: value, user: this.user }));
-    this.modalInput.value = '';
+    this.inputElement.value = '';
   }
 
   renderMessage(event) {

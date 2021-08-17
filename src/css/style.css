@@ -13,6 +13,19 @@ body {
   margin: 10px auto;
 }
 
+.chat__start {
+  width: 150px;
+  height: 20px;
+  text-align: center;
+  margin: 10px auto;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.chat__start:active {
+  transform: scale(0.8);
+}
+
 .chat__container {
   width: 80%;
   margin-left: auto;
@@ -88,7 +101,7 @@ body {
   right: 10px;
 }
 
-.form__input {
+.chat__messages-input .form__input {
   width: 300px;
   height: 25px;
   padding: 10px;
@@ -109,7 +122,7 @@ body {
   right: 0;
 }
 
-.modal__input {
+.modal__form .form__input {
   padding: 10px;
 }
 

@@ -4,7 +4,7 @@ export default class ChatAPI {
   create(data, callback) {
     const options = {
       method: 'POST',
-      query: './newuser',
+      query: '/newuser',
       data,
       callback,
     };
