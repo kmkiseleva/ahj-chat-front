@@ -14,7 +14,10 @@ export default class Chat {
   registerEvents() {
     this.modalInput.addEventListener('keydown', (e) => {
       if (e.keyCode === 13) {
-        this.onEnterChat(this.modalInput.value);
+        const newUser = {
+          name: this.modalInput.value,
+        };
+        this.onEnterChat(newUser);
       }
     });
     this.inputElement.addEventListener('keydown', (e) => {
@@ -25,7 +28,7 @@ export default class Chat {
   }
 
   get userListContainer() {
-    return this.container.querySelector('.chat__userlist');
+    return this.container.querySelector('.chat__users');
   }
 
   get modalForm() {
