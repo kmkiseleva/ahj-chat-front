@@ -43,10 +43,6 @@ export default class Chat {
     return document.querySelector('.form__input');
   }
 
-  get connectButton() {
-    return this.container.querySelector('.chat__start');
-  }
-
   get messageContainer() {
     return this.container.querySelector('chat__messages-container');
   }
@@ -67,7 +63,8 @@ export default class Chat {
         )
       );
     } else {
-      console.log('Already Ex');
+      alert('Such nick has already exist! Choose the other one');
+      this.modalInput.value = '';
     }
   }
 
@@ -82,8 +79,57 @@ export default class Chat {
     if (Array.isArray(receivedData)) {
       this.userListContainer.textContent = '';
       receivedData.forEach((user) => {
-        console.log(user);
+        if (user.name === this.user.name) {
+          const you = this.renderYouHTML(user);
+          this.userListContainer.insertAdjacentHTML('afterbegin', you);
+        } else {
+          const newuser = this.renderUsersHTML(user);
+          this.userListContainer.insertAdjacentHTML('beforeend', newuser);
+        }
       });
     }
+    // const youMsg = this.renderYouMessage(receivedData);
+    // this.messageContainer.insertAdjacentHTML('afterbegin', youMsg);
+
+    // const userMsg = this.renderUsersMessage(receivedData);
+    // this.messageContainer.insertAdjacentHTML('afterbegin', userMsg);
+  }
+
+  renderUsersHTML(user) {
+    return `
+    <div class="chat__user" data-user-id=${user.id}>${user.name}</div>
+    `;
+  }
+
+  renderYouHTML(user) {
+    return `
+    <div class="chat__user you" data-user-id=${user.id}>You</div>
+    `;
+  }
+
+  renderYouMessage(receivedData) {
+    const sourceDate = new Date();
+    const date = `${sourceDate
+      .toLocaleTimeString()
+      .slice(0, 5)} ${sourceDate.toLocaleDateString()} `;
+    return `
+    <div class="message yourself">
+                <div class="message__header">You, ${date}</div>
+                <div class="message__text">${receivedData.message}</div>
+              </div>
+    `;
+  }
+
+  renderUsersMessage(receivedData) {
+    const sourceDate = new Date();
+    const date = `${sourceDate
+      .toLocaleTimeString()
+      .slice(0, 5)} ${sourceDate.toLocaleDateString()} `;
+    return `
+    <div class="message yourself">
+                <div class="message__header">${receivedData.user.name}, ${date}</div>
+                <div class="message__text">${receivedData.message}</div>
+              </div>
+    `;
   }
 }
