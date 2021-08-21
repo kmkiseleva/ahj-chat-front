@@ -87,7 +87,6 @@ export default class Chat {
     if (Array.isArray(receivedData)) {
       this.userListContainer.textContent = '';
       receivedData.forEach((user) => {
-        console.log(user);
         if (user.name === this.user.name) {
           const you = this.renderYouHTML(user);
           this.userListContainer.insertAdjacentHTML('afterbegin', you);
