@@ -52,7 +52,7 @@ export default class Chat {
     if (response.status === 'ok') {
       this.modalForm.classList.add('hidden');
       this.user = response.user;
-      this.websocket = new WebSocket('ws://ahj-chat-back.herokuapp.com/chat');
+      this.websocket = new WebSocket('wss://ahj-chat-back.herokuapp.com/chat');
       this.websocket.addEventListener('message', (event) => {
         this.renderMessage(event);
       });
