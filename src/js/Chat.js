@@ -40,11 +40,11 @@ export default class Chat {
   }
 
   get inputElement() {
-    return document.querySelector('.form__input');
+    return document.querySelector('.chat__messages-input .form__input');
   }
 
   get messageContainer() {
-    return this.container.querySelector('chat__messages-container');
+    return document.querySelector('.chat__messages-container');
   }
 
   async onEnterChat(newUser) {
@@ -53,7 +53,9 @@ export default class Chat {
       this.modalForm.classList.add('hidden');
       this.user = response.user;
       this.websocket = new WebSocket('ws://ahj-chat-back.herokuapp.com/chat');
-      this.websocket.addEventListener('message', (event) => this.renderMessage(event));
+      this.websocket.addEventListener('message', (event) => {
+        this.renderMessage(event);
+      });
       window.addEventListener('beforeunload', () =>
         this.websocket.send(
           JSON.stringify({
@@ -72,6 +74,12 @@ export default class Chat {
     const { value } = this.inputElement;
     this.websocket.send(JSON.stringify({ type: 'send', message: value, user: this.user }));
     this.inputElement.value = '';
+
+    const youMsg = this.renderYouMessage(value);
+    this.messageContainer.insertAdjacentHTML('afterbegin', youMsg);
+
+    // const userMsg = this.renderUsersMessage();
+    // this.messageContainer.insertAdjacentHTML('afterbegin', userMsg);
   }
 
   renderMessage(event) {
@@ -79,6 +87,7 @@ export default class Chat {
     if (Array.isArray(receivedData)) {
       this.userListContainer.textContent = '';
       receivedData.forEach((user) => {
+        console.log(user);
         if (user.name === this.user.name) {
           const you = this.renderYouHTML(user);
           this.userListContainer.insertAdjacentHTML('afterbegin', you);
@@ -88,11 +97,6 @@ export default class Chat {
         }
       });
     }
-    // const youMsg = this.renderYouMessage(receivedData);
-    // this.messageContainer.insertAdjacentHTML('afterbegin', youMsg);
-
-    // const userMsg = this.renderUsersMessage(receivedData);
-    // this.messageContainer.insertAdjacentHTML('afterbegin', userMsg);
   }
 
   renderUsersHTML(user) {
@@ -107,7 +111,7 @@ export default class Chat {
     `;
   }
 
-  renderYouMessage(receivedData) {
+  renderYouMessage(value) {
     const sourceDate = new Date();
     const date = `${sourceDate
       .toLocaleTimeString()
@@ -115,20 +119,20 @@ export default class Chat {
     return `
     <div class="message yourself">
                 <div class="message__header">You, ${date}</div>
-                <div class="message__text">${receivedData.message}</div>
+                <div class="message__text">${value}</div>
               </div>
     `;
   }
 
-  renderUsersMessage(receivedData) {
+  renderUsersMessage() {
     const sourceDate = new Date();
     const date = `${sourceDate
       .toLocaleTimeString()
       .slice(0, 5)} ${sourceDate.toLocaleDateString()} `;
     return `
     <div class="message yourself">
-                <div class="message__header">${receivedData.user.name}, ${date}</div>
-                <div class="message__text">${receivedData.message}</div>
+                <div class="message__header">${this.user.name}, ${date}</div>
+                <div class="message__text">${this.inputElement.value}</div>
               </div>
     `;
   }
