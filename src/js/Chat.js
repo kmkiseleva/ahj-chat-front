@@ -77,15 +77,13 @@ export default class Chat {
 
     const youMsg = this.renderYouMessage(value);
     this.messageContainer.insertAdjacentHTML('afterbegin', youMsg);
-
-    // const userMsg = this.renderUsersMessage();
-    // this.messageContainer.insertAdjacentHTML('afterbegin', userMsg);
   }
 
   renderMessage(event) {
     const receivedData = JSON.parse(event.data);
     if (Array.isArray(receivedData)) {
       this.userListContainer.textContent = '';
+
       receivedData.forEach((user) => {
         if (user.name === this.user.name) {
           const you = this.renderYouHTML(user);
@@ -95,6 +93,11 @@ export default class Chat {
           this.userListContainer.insertAdjacentHTML('beforeend', newuser);
         }
       });
+
+      if (receivedData.message) {
+        const userMsg = this.renderUsersMessage(receivedData);
+        this.messageContainer.insertAdjacentHTML('afterbegin', userMsg);
+      }
     }
   }
 
@@ -123,7 +126,7 @@ export default class Chat {
     `;
   }
 
-  renderUsersMessage() {
+  renderUsersMessage(receivedData) {
     const sourceDate = new Date();
     const date = `${sourceDate
       .toLocaleTimeString()
@@ -131,7 +134,7 @@ export default class Chat {
     return `
     <div class="message yourself">
                 <div class="message__header">${this.user.name}, ${date}</div>
-                <div class="message__text">${this.inputElement.value}</div>
+                <div class="message__text">${receivedData.message}</div>
               </div>
     `;
   }
