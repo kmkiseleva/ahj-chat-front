@@ -5,6 +5,12 @@ export default class Chat {
     this.container = container;
     this.api = new ChatAPI();
     this.websocket = null;
+
+    this.userListContainer = document.querySelector('.chat__users');
+    this.modalForm = document.querySelector('.modal__form');
+    this.modalInput = document.querySelector('.modal__form .form__input');
+    this.inputElement = document.querySelector('.form__input');
+    this.messageContainer = document.querySelector('.chat__messages-container');
   }
 
   init() {
@@ -25,26 +31,6 @@ export default class Chat {
         this.sendMessage();
       }
     });
-  }
-
-  get userListContainer() {
-    return this.container.querySelector('.chat__users');
-  }
-
-  get modalForm() {
-    return document.querySelector('.modal__form');
-  }
-
-  get modalInput() {
-    return document.querySelector('.modal__form .form__input');
-  }
-
-  get inputElement() {
-    return document.querySelector('.chat__messages-input .form__input');
-  }
-
-  get messageContainer() {
-    return document.querySelector('.chat__messages-container');
   }
 
   async onEnterChat(newUser) {
@@ -95,6 +81,7 @@ export default class Chat {
       });
 
       if (receivedData.message) {
+        if (receivedData.user.name === this.user.name) return;
         const userMsg = this.renderUsersMessage(receivedData);
         this.messageContainer.insertAdjacentHTML('afterbegin', userMsg);
       }
