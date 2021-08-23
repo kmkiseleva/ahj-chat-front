@@ -79,12 +79,13 @@ export default class Chat {
           this.userListContainer.insertAdjacentHTML('beforeend', newuser);
         }
       });
+      return;
+    }
 
-      if (receivedData.message) {
-        if (receivedData.user.name === this.user.name) return;
-        const userMsg = this.renderUsersMessage(receivedData);
-        this.messageContainer.insertAdjacentHTML('afterbegin', userMsg);
-      }
+    if (receivedData.message) {
+      if (receivedData.user.name === this.user.name) return;
+      const userMsg = this.renderUsersMessage(receivedData);
+      this.messageContainer.insertAdjacentHTML('afterbegin', userMsg);
     }
   }
 
