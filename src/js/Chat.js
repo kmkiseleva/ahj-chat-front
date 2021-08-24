@@ -62,7 +62,7 @@ export default class Chat {
     this.inputElement.value = '';
 
     const youMsg = this.renderYouMessage(value);
-    this.messageContainer.insertAdjacentHTML('afterbegin', youMsg);
+    this.messageContainer.insertAdjacentHTML('beforeend', youMsg);
   }
 
   renderMessage(event) {
@@ -85,7 +85,7 @@ export default class Chat {
     if (receivedData.message) {
       if (receivedData.user.name === this.user.name) return;
       const userMsg = this.renderUsersMessage(receivedData);
-      this.messageContainer.insertAdjacentHTML('afterbegin', userMsg);
+      this.messageContainer.insertAdjacentHTML('beforeend', userMsg);
     }
   }
 
@@ -120,7 +120,7 @@ export default class Chat {
       .toLocaleTimeString()
       .slice(0, 5)} ${sourceDate.toLocaleDateString()} `;
     return `
-    <div class="message yourself">
+    <div class="message">
                 <div class="message__header">${this.user.name}, ${date}</div>
                 <div class="message__text">${receivedData.message}</div>
               </div>
