@@ -121,7 +121,7 @@ export default class Chat {
       .slice(0, 5)} ${sourceDate.toLocaleDateString()} `;
     return `
     <div class="message">
-                <div class="message__header">${this.user.name}, ${date}</div>
+                <div class="message__header">${receivedData.user.name}, ${date}</div>
                 <div class="message__text">${receivedData.message}</div>
               </div>
     `;
